@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -e
+rm -rf out
+mkdir -p out
+javac -encoding UTF-8 -d out $(find src -name "*.java")
+java -cp out ru.edu.pr04.SelfCheck
+java -cp out ru.edu.pr04.BoundaryCheck
+java -cp out ru.edu.pr04.OrderApp data/sample.csv

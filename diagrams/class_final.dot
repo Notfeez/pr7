@@ -1,0 +1,27 @@
+digraph C {
+graph [rankdir=TB, bgcolor="white", pad=0.2, nodesep=0.35, ranksep=0.5];
+node [shape=record, style="filled", fontname="Times New Roman", fontsize=10, color="#2F5597", fillcolor="#F7FBFF"];
+edge [fontname="Times New Roman", fontsize=9, color="#555555"];
+p [label="{Product|- id String\l- name String\l- price double\l|+ Product(String,String,double)\l+ getId() String\l+ getName() String\l+ getPrice() double\l}"];
+e [label="{Employee\n«record»|id String\lfullName String\l|+ Employee(String,String)\l}"];
+st [label="{OrderStatus\n«enum»||DRAFT\lCONFIRMED\l}"];
+oi [label="{OrderItem|+ MIN_QUANTITY int\l- BASE_MAX_QUANTITY int\l- MAX_DISCOUNT_PERCENT int\l+ MAX_QUANTITY int\l- product Product\l- quantity int\l|+ OrderItem(Product,int)\l- setQuantity(int) void\l- checkQuantity(int) void\l+ increase(int) void\l+ getProduct() Product\l+ getQuantity() int\l+ getLineTotal() double\l}"];
+o [label="{Order|- employee Employee\l- items List[OrderItem]\l- status OrderStatus\l|+ Order(Employee)\l+ addProduct(Product,int) void\l+ removeProduct(String) void\l+ total() double\l+ confirm() void\l+ getItems() List[OrderItem]\l+ getEmployee() Employee\l+ getStatus() OrderStatus\l- checkDraft() void\l- findItem(String) OrderItem\l- checkSameProduct(Product,Product) void\l}"];
+s [label="{OrderService||+ createOrder(Employee) Order\l+ validateForConfirm(Order) void\l+ confirmOrder(Order) void\l}"];
+r [label="{OrderCsvReader||+ addLine(Order,String) void\l- parsePrice(String) double\l- parseQuantity(String) int\l}"];
+app [label="{OrderApp||+ main(String[]) void\l}"];
+sc [label="{SelfCheck||+ main(String[]) void\l}"];
+bc [label="{BoundaryCheck||+ main(String[]) void\l- expect(String,Object,Object) void\l- expectError(String,Class,Runnable) void\l}"];
+o -> e [label="1",arrowtail=odiamond,dir=both];
+o -> oi [label="0..*",arrowtail=diamond,dir=both];
+oi -> p [label="1",arrowtail=odiamond,dir=both];
+o -> st [label="status",style=dashed,arrowhead=open];
+s -> o [label="uses",style=dashed,arrowhead=open];
+r -> o [label="uses",style=dashed,arrowhead=open];
+r -> p [label="creates",style=dashed,arrowhead=open];
+app -> s [label="uses",style=dashed,arrowhead=open];
+app -> r [label="uses",style=dashed,arrowhead=open];
+sc -> s [label="uses",style=dashed,arrowhead=open];
+bc -> s [label="uses",style=dashed,arrowhead=open];
+bc -> r [label="uses",style=dashed,arrowhead=open];
+}
